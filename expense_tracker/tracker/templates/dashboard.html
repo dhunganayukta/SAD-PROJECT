@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .transactions {
+            margin-top: 20px;
+        }
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .transaction:last-child {
+            border-bottom: none;
+        }
+        .transaction .amount {
+            font-weight: bold;
+        }
+        .transaction .category {
+            color: #666;
+        }
+        .transaction .date {
+            color: #999;
+        }
+        .add-transaction {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .add-transaction a {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .add-transaction a:hover {
+            background-color: #218838;
+        }
+        .logout {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .logout a {
+            color: #dc3545;
+            text-decoration: none;
+        }
+        .logout a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, {{ request.user.username }}</h1>
+    </div>
+
+    <div class="container">
+        <div class="balance">
+            Current Balance: ${{ balance }}
+        </div>
+
+        <div class="transactions">
+            <h2>Your Transactions</h2>
+            {% for transaction in transactions %}
+                <div class="transaction">
+                    <div class="details">
+                        <span class="amount">${{ transaction.amount }}</span>
+                        <span class="category">{{ transaction.category }}</span>
+                    </div>
+                    <div class="date">{{ transaction.date }}</div>
+                </div>
+            {% empty %}
+                <p>No transactions found.</p>
+            {% endfor %}
+        </div>
+
+        <div class="add-transaction">
+            <a href="{% url 'add_transaction' %}">Add Transaction</a>
+        </div>
+
+        <div class="logout">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
